@@ -9,6 +9,7 @@ import axios from 'axios';
 
 const FileUpload = () => {
   const [uploading, setUploading] = React.useState(false);
+  
   const { mutate, isLoading } = useMutation({
     mutationFn: async ({
       file_key,
@@ -79,7 +80,7 @@ const FileUpload = () => {
           </>
         ) : (
           <>
-            <Inbox className='w-8 h-8 text-blue-500' />
+            <Inbox className='w-8 h-8 text-blue-500'/>
             <p className='mt-2 text-sm text-slate-400'>Drop PDF Here</p>
           </>
         )}
