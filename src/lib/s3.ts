@@ -1,18 +1,20 @@
-import AWS from 'aws-sdk';
+import { PutObjectCommandOutput, S3 } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
+import { Progress } from '@aws-sdk/lib-storage';
+
 export async function uploadToS3(file: File) {
   try {
-    AWS.config.update({
-      accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID,
-      secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS_KEY,
-    });
-    const s3 = new AWS.S3({
-      params: {
-        Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
+    const s3 = new S3({
+      region: process.env.NEXT_PUBLIC_S3_REGION!,
+      credentials: {
+        accessKeyId: process.env.NEXT_PUBLIC_S3_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS_KEY!,
       },
-      region: process.env.NEXT_PUBLIC_S3_REGION,
     });
-    const file_key =
-      'uploads/' + Date.now().toString() + file.name.replace(' ', '-');
+
+    const file_key = 
+    `${file.name}`;
+    // 'uploads/' + Date.now().toString() + file.name.replace(' ', '-');
 
     const params = {
       Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,
@@ -20,17 +22,21 @@ export async function uploadToS3(file: File) {
       Body: file,
     };
 
-    const upload = s3
-      .putObject(params)
-      .on('httpUploadProgress', (evt) => {
+    const upload = new Upload({
+      client: s3,
+      params: params,
+    });
+
+    upload.on('httpUploadProgress', (progress: Progress) => {
+      if (progress.loaded !== undefined && progress.total !== undefined) {
         console.log(
           'uploading to s3...',
-          parseInt((evt.loaded * 100) / evt.total + '').toString() + '%'
+          Math.round((progress.loaded / progress.total) * 100) + '%'
         );
-      })
-      .promise();
+      }
+    });
 
-    await upload.then((data) => {
+    await upload.done().then((data) => {
       console.log('upload success', file_key);
     });
 

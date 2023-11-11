@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "set NODE_OPTIONS='--max-old-space-size=8192' && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.449.0",
+    "@aws-sdk/lib-storage": "^3.449.0",
     "@clerk/nextjs": "^4.24.2",
     "@neondatabase/serverless": "^0.6.0",
     "@pinecone-database/pinecone": "^1.1.0",
@@ -21,8 +23,10 @@
     "dotenv": "^16.3.1",
     "drizzle-kit": "^0.19.13",
     "drizzle-orm": "^0.28.6",
+    "langchain": "^0.0.160",
     "lucide-react": "^0.279.0",
     "next": "latest",
+    "pdf-parse": "^1.1.1",
     "pg": "^8.11.3",
     "react": "latest",
     "react-dom": "latest",
