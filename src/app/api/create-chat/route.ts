@@ -1,11 +1,11 @@
-// /api/create-chat
-import { NextResponse } from 'next/server';
-import { loadS3IntoPinecone } from '@/lib/pinecone';
-import { chats } from '@/lib/db/schema';
 import { db } from '@/lib/db';
+import { chats } from '@/lib/db/schema';
+import { loadS3IntoPinecone } from '@/lib/pinecone';
 import { getS3Url } from '@/lib/s3';
 import { auth } from '@clerk/nextjs';
+import { NextResponse } from 'next/server';
 
+// /api/create-chat
 export async function POST(req: Request, res: Response) {
   const { userId } = await auth();
   if (!userId) {
@@ -29,11 +29,11 @@ export async function POST(req: Request, res: Response) {
       });
 
     return NextResponse.json(
-      { chat_id: chat_id[0].insertedId },
+      {
+        chat_id: chat_id[0].insertedId,
+      },
       { status: 200 }
     );
-    // const pages = await loadS3IntoPinecone(file_key);
-    // return NextResponse.json({ pages });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
