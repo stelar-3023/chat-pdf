@@ -31,6 +31,7 @@ export async function POST(req: Request, res: Response) {
     return NextResponse.json(
       {
         chat_id: chat_id[0].insertedId,
+        
       },
       { status: 200 }
     );
