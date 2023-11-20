@@ -1,11 +1,14 @@
 {
   "cSpell.words": [
+    "chatpdf",
     "clsx",
     "langchain",
     "lucide",
     "neondatabase",
     "nextjs",
+    "OPENAI",
     "tailwindcss",
-    "tanstack"
+    "tanstack",
+    "vectorize"
   ]
 }
