@@ -7,8 +7,10 @@
     "neondatabase",
     "nextjs",
     "OPENAI",
+    "SIGNIN",
     "tailwindcss",
     "tanstack",
+    "userid",
     "vectorize"
   ]
 }
